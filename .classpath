@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.jetbrains.kotlin.core.KOTLIN_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/abraao/desenvolvimento/projetos/estudos/elecsound/http-csound-server/libs/TooTallNate-Java-WebSocket-05d2e2e/dist/java_websocket.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/csnd6-6.02~dfsg.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
