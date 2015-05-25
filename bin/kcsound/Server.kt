@@ -6,15 +6,15 @@ public class Server {
 		println("teste");
 	}
 	
-	fun compile(): Composition {
+	fun compile(csoundString: String): Composition {
 		return Composition();
 	}
 	
-	fun play(): Player {
+	fun play(composition: Composition): Player {
 		return Player();
 	}
 	
-	fun getStatus(): Stats {
+	fun getStatus(player: Player): Stats {
 		return Stats();
 	}
 }
