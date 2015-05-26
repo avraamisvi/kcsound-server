@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.jetbrains.kotlin.core.KOTLIN_CONTAINER"/>
 	<classpathentry kind="lib" path="/home/abraao/desenvolvimento/projetos/estudos/elecsound/http-csound-server/libs/TooTallNate-Java-WebSocket-05d2e2e/dist/java_websocket.jar"/>
 	<classpathentry kind="lib" path="/usr/share/java/csnd6-6.02~dfsg.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
