@@ -8,7 +8,7 @@ public class Player(server: Server, composition: Composition) {
 	val composition = composition;
 	val server: Server = server;
 	
-	fun run() {
+	fun run(): Player {
 		// Using SetOption() to configure Csound
         // Note: use only one commandline flag at a time 
         csound.SetOption("-odac");  
@@ -24,6 +24,8 @@ public class Player(server: Server, composition: Composition) {
         csound.Start();
 
         // This call runs Csound to completion
-        csound.Perform();		
+        csound.Perform();
+		
+		return this;
 	}
 }

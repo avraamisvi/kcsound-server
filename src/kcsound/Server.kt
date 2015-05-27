@@ -24,6 +24,11 @@ public class Server(address: InetSocketAddress)  : WebSocketServer(address) {
 
     public override fun onMessage(conn: WebSocket, message: String) {
         System.out.println("received message from " + conn.getRemoteSocketAddress() + ": " + message);
+		
+		val processMessage = ProcessMessage();
+		
+		kcsound.process(processMessage.process(message));
+		
     }
 
     public override fun onError(conn: WebSocket, ex: Exception) {

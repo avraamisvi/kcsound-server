@@ -1,10 +1,27 @@
 package kcsound
 
-import com.google.gson.Gson
+import com.google.gson.*
 
-public class Message {
-	var data: String?=null;
-    var type: Int?=null;
+public trait Message {
+	val type: MessageType;
+}
+
+//class LocalMessage {
+//	var data: String?=null;
+//    var type: MessageType?=null;
+//}
+
+public class PlayMessage(composition: Composition) : Message {
+    override val type: MessageType = MessageType.PLAY;
+	val composition: Composition = composition;
+}
+
+public class StopMessage() : Message {
+    override val type: MessageType = MessageType.STOP;
+}
+
+public class UnknownMessage() : Message {
+    override val type: MessageType = MessageType.UNKNOWN;
 }
 
 public class ProcessMessage {
@@ -12,8 +29,21 @@ public class ProcessMessage {
 	fun process(msg: String): Message {
 		val gson = Gson();
 		
-		val ret: Message = gson.fromJson(msg, javaClass<Message>());
+		val ret: JsonElement = gson.fromJson(msg, javaClass<JsonElement>());
 		
-		return ret;
+		return when (MessageType.valueOf(ret.getAsJsonObject().get("type").getAsString())) {
+		 
+			  MessageType.PLAY -> {
+			  	gson.fromJson(ret, javaClass<PlayMessage>());
+			  }
+				
+			  MessageType.STOP -> {
+			  	gson.fromJson(ret, javaClass<StopMessage>());
+			  }
+			
+			  else -> {
+			    UnknownMessage()
+			  }
+		}
 	}
 }

@@ -18,11 +18,20 @@ public class KCSound(server: Server) {
 	}
 	
 	fun compile(composition: Composition): Composition {//TODO
-		return Composition();
+		return Composition("","");//TODO fazer
 	}
 	
 	fun play(composition: Composition): Player {	
-		return Player(server, composition);
+		return Player(server, composition).run();
+	}
+	
+	fun process(msg: Message) {
+		when(msg.type) {
+			MessageType.PLAY -> play((msg as PlayMessage).composition)
+			else -> {
+				println("unknown");
+			}
+		}
 	}
 	
 }
