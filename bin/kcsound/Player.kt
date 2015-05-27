@@ -1,14 +1,21 @@
 package kcsound
 
 import csnd6.Csound
+import org.java_websocket.WebSocket
 
-public class Player(server: Server, composition: Composition) {
+public class Player {
 	
 	val csound = Csound();
-	val composition = composition;
-	val server: Server = server;
+	var playing: Boolean = false;
+	 
+	fun stop(conn: WebSocket) {
+		playing = false;
+	}
 	
-	fun run(): Player {
+	fun play(conn: WebSocket, composition: Composition) {
+		
+		playing = true;
+		
 		// Using SetOption() to configure Csound
         // Note: use only one commandline flag at a time 
         csound.SetOption("-odac");  
@@ -24,8 +31,20 @@ public class Player(server: Server, composition: Composition) {
         csound.Start();
 
         // This call runs Csound to completion
-        csound.Perform();
+//        csound.Perform();
 		
-		return this;
+        while (csound.PerformKsmps() == 0 && conn.isOpen() && playing) {
+//        	println("time:" + csound.GetScoreTime());
+			conn.send(""+csound.GetScoreTime());
+			
+			if(conn.isClosed()) {
+				break;
+			}
+        }
+		
+        // stops Csound
+        csound.Stop();	
+		
+		csound.Cleanup();	
 	}
 }

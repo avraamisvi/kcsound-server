@@ -27,8 +27,7 @@ public class Server(address: InetSocketAddress)  : WebSocketServer(address) {
 		
 		val processMessage = ProcessMessage();
 		
-		kcsound.process(processMessage.process(message));
-		
+		kcsound.process(conn, processMessage.process(message));
     }
 
     public override fun onError(conn: WebSocket, ex: Exception) {

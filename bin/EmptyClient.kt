@@ -27,7 +27,7 @@ public class EmptyClient(serverUri:URI, draft:Draft): WebSocketClient(serverUri,
                 aout vco2 0.5, 440
                 outs aout, aout
                 endin			
-			""", "i1 0 1"));
+			""", "i1 0 60"));
 		
         this.send(gson.toJson(msg));
     }
@@ -43,10 +43,4 @@ public class EmptyClient(serverUri:URI, draft:Draft): WebSocketClient(serverUri,
     public override fun onError(ex: Exception) {
         System.err.println("an error occured:" + ex);
     }
-
-}
-
-fun main(args : Array<String>) {
-	val client = EmptyClient(URI("ws://localhost:8887"), Draft_10());
-	client.connect();
 }

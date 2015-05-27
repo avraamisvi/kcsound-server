@@ -3,6 +3,7 @@ package kcsound
 import csnd6.csnd6Constants;
 import csnd6.csnd6;
 import csnd6.Csound;
+import org.java_websocket.WebSocket
 
 public class KCSound(server: Server) {
 	
@@ -13,21 +14,27 @@ public class KCSound(server: Server) {
 	public fun startSystem() {
 		var par = csnd6Constants.CSOUNDINIT_NO_ATEXIT or csnd6Constants.CSOUNDINIT_NO_SIGNAL_HANDLER;
         csnd6.csoundInitialize(par);
-		
 		server.run();
+		player = Player();
 	}
 	
-	fun compile(composition: Composition): Composition {//TODO
-		return Composition("","");//TODO fazer
+	fun compile(composition: Composition) {//TODO
+//		return Composition("","");//TODO fazer
 	}
 	
-	fun play(composition: Composition): Player {	
-		return Player(server, composition).run();
+	fun play(conn: WebSocket, composition: Composition) {	
+		player?.play(conn, composition);
 	}
 	
-	fun process(msg: Message) {
+	fun stop(conn: WebSocket) {	
+		player?.stop(conn);
+	}	
+	
+	fun process(conn: WebSocket, msg: Message) {
+		
 		when(msg.type) {
-			MessageType.PLAY -> play((msg as PlayMessage).composition)
+			MessageType.PLAY -> play(conn, (msg as PlayMessage).composition)
+			MessageType.STOP -> stop(conn)
 			else -> {
 				println("unknown");
 			}
