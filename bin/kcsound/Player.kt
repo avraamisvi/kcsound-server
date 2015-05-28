@@ -5,7 +5,6 @@ import org.java_websocket.WebSocket
 
 public class Player {
 	
-	val csound = Csound();
 	var playing: Boolean = false;
 	 
 	fun stop(conn: WebSocket) {
@@ -13,6 +12,8 @@ public class Player {
 	}
 	
 	fun play(conn: WebSocket, composition: Composition) {
+		
+		val csound = Csound();
 		
 		playing = true;
 		
@@ -45,6 +46,6 @@ public class Player {
         // stops Csound
         csound.Stop();	
 		
-		csound.Cleanup();	
+//		csound.Cleanup();	
 	}
 }

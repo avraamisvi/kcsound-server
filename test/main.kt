@@ -9,25 +9,47 @@ import javax.swing.JButton
 import java.awt.event.ActionListener
 import java.awt.event.ActionListener
 import java.awt.event.ActionEvent
+import javax.swing.JPanel
+
+public class ActionStop(client: EmptyClient) : ActionListener {
+	
+	val client: EmptyClient = client;
+	
+	public override fun actionPerformed(e: ActionEvent) {
+	   client.stop();
+	}
+}
+
+public class ActionPlay(client: EmptyClient) : ActionListener {
+	
+	val client: EmptyClient = client;
+	
+	public override fun actionPerformed(e: ActionEvent) {
+	   client.play();
+	}
+}
 
 fun main(args : Array<String>) {
 	
 	val frame: JFrame = JFrame();
-	val client = EmptyClient(URI("ws://localhost:8887"), Draft_10());
-	client.connect();
+	val panel: JPanel = JPanel();
+	val clientStop = EmptyClient(URI("ws://localhost:8887"), Draft_10());
+	val clientPlay = EmptyClient(URI("ws://localhost:8887"), Draft_10());
 	
-	frame.setSize(400, 400);
+	clientPlay.connect();
+	clientStop.connect();
+	
+	frame.setSize(400, 100);
 	val btnStop = JButton("Stop");
+	val btnPlay = JButton("Play");
 	
-	btnStop.addActionListener(ActionListener(){
-	    fun actionPerformed(e: ActionEvent) {
-	        
-	    }		
-	})
-	
-	frame.getContentPane().add(btnStop);
-	frame.pack();
-	
+	btnPlay.addActionListener(ActionPlay(clientPlay));
+	btnStop.addActionListener(ActionStop(clientStop));
+		
+	frame.getContentPane().add(panel);
+	panel.add(btnPlay);
+	panel.add(btnStop);
+//	frame.pack();
 
 	
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

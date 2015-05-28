@@ -14,8 +14,9 @@ public class KCSound(server: Server) {
 	public fun startSystem() {
 		var par = csnd6Constants.CSOUNDINIT_NO_ATEXIT or csnd6Constants.CSOUNDINIT_NO_SIGNAL_HANDLER;
         csnd6.csoundInitialize(par);
+        player = Player();
+		
 		server.run();
-		player = Player();
 	}
 	
 	fun compile(composition: Composition) {//TODO
