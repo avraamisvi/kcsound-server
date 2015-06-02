@@ -2,7 +2,7 @@ package kcsound
 
 import com.google.gson.*
 
-public trait Message {
+public interface Message {
 	val type: MessageType;
 }
 
@@ -25,22 +25,22 @@ public class UnknownMessage() : Message {
 }
 
 public class ProcessMessage {
-	
+
 	fun process(msg: String): Message {
 		val gson = Gson();
-		
+
 		val ret: JsonElement = gson.fromJson(msg, javaClass<JsonElement>());
-		
+
 		return when (MessageType.valueOf(ret.getAsJsonObject().get("type").getAsString())) {
-		 
+
 			  MessageType.PLAY -> {
 			  	gson.fromJson(ret, javaClass<PlayMessage>());
 			  }
-				
+
 			  MessageType.STOP -> {
 			  	gson.fromJson(ret, javaClass<StopMessage>());
 			  }
-			
+
 			  else -> {
 			    UnknownMessage()
 			  }

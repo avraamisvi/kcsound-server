@@ -1,0 +1,62 @@
+buildscript {
+    ext.kotlin_version = '0.12.200'
+    ext.quasar_version = '0.7.0'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+  id "us.kirchmeier.capsule" version "1.0-rc1"
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+mainClassName = 'kcsound.Main'
+
+jar {
+    baseName = 'kcsound'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/releases" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repository.jetbrains.com/spek" }
+}
+
+// New entire sourceSets
+sourceSets {
+    main {
+        kotlin {
+            srcDir "src"
+        }
+    }
+}
+
+dependencies {
+    compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version") // New
+    compile("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'org.xeustechnologies:jcl-core:2.6'
+    compile files('libs/csnd6-6.02~dfsg.jar')
+    compile 'org.java-websocket:Java-WebSocket:1.3.0'
+}
+
+
+run {
+    jvmArgs "-Djava.library.path=libs/"
+}
