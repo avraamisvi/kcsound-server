@@ -1,18 +1,20 @@
-package kcsound
+package kcsound.composition
 
 import java.io.File
 import com.google.gson.JsonObject
 
-public class InstrumentEntry {
-	var id:Int?=null;
-  var duration: Double;
+public class Group {
+	public var instruments:Array<Int>? = null;
+  public var groupName: String?=null;
+
+  public var start: Double = 0.0;
+  public var duration: Double = 0.0;
 }
 
 /**
-* This represents an instrument.
+* This represents a score.
 **/
-public class Orchestra {
+public class Score {
 
-  var header: String?=null;
-  var instruments: Array<JsonObject>?=null;
+  public var groups: Array<Group>?=null;
 }

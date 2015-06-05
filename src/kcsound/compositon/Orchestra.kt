@@ -1,4 +1,4 @@
-package kcsound
+package kcsound.composition
 
 import java.io.File
 import com.google.gson.JsonObject
@@ -8,6 +8,6 @@ import com.google.gson.JsonObject
 **/
 public class Orchestra {
 
-  var header: String?=null;
-  var instruments: Array<JsonObject>?=null;
+  public var header: String?=null;
+  public var instruments: JsonObject?=null;
 }
