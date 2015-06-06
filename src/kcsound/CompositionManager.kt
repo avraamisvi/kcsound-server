@@ -1,5 +1,9 @@
 package kcsound;
 
+import kcsound.instruments.*;
+import kcsound.composition.*;
+import com.google.gson.*;
+
 public class CompiledComposition {
   var orchestra: String?=null;
   var score: String?=null;
@@ -22,19 +26,20 @@ public object CompositionManager {
 
     var orchestra = "";
 
-    for(orchItem: Set<Map.Entry<String,JsonElement>> in compo.orchestra.entrySet()) {
+    //TODO rever
+    for(orchItem: Map.Entry<String, JsonElement> in compo.orchestra!!.instruments!!.entrySet()) {
       val instrument = this.createInstrument(orchItem.getValue() as JsonObject);
-      val compiledStr = instrument.compile();
+      val compiledStr = instrument.compile(orchItem.getValue() as JsonObject);
     }
 
+    return "";
   }
 
   fun createOrchestraInstrument(instr: Instrument, json: JsonObject): String {
-    return "instr " +
+    return "instr ";
   }
 
   fun createInstrument(obj: JsonObject): Instrument {
-      InstrumentsManager.createInstrument(obj.get("name").getAsString());
-      return instrument_;
+      return InstrumentsManager.createInstrument(obj.get("name").getAsString());
   }
 }

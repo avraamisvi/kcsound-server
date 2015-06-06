@@ -21,7 +21,7 @@ public class Player {
         // Note: use only one commandline flag at a time
         csound.SetOption("-odac");
 
-				val compiled = CompositionManager().compile(composition);
+				val compiled = CompositionManager.compile(composition);
 
         // Compile the Csound Orchestra string
         csound.CompileOrc(compiled.orchestra);

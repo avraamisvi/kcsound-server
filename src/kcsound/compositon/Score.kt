@@ -4,7 +4,7 @@ import java.io.File
 import com.google.gson.JsonObject
 
 public class Group {
-	public var instruments:Array<Int>? = null;
+	public var instruments:JsonObject? = null;
   public var groupName: String?=null;
 
   public var start: Double = 0.0;
