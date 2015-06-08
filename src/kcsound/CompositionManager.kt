@@ -24,7 +24,7 @@ public object CompositionManager {
 
     this.createOrchestra(composition, compiled);
     this.createScore(composition, compiled);
-    this.compiled.id = this.compiledsId;
+    compiled.id = this.compiledsId;
 
     this.compiledsId++;
 
@@ -33,7 +33,7 @@ public object CompositionManager {
 
   fun createOrchestra(compo: Composition, compiled: CompiledComposition) {
 
-    for(orchItem: Set<Map.Entry<String,JsonElement>> in compo.orchestra.instruments.entrySet()) {
+    for(orchItem: Map.Entry<String,JsonElement> in compo.orchestra!!.instruments!!.entrySet()) {
 
       var json = orchItem.getValue() as JsonObject;
       val instrument = this.createInstrument(json);
@@ -41,11 +41,8 @@ public object CompositionManager {
       // Compilando instrumento
       instrument.compile(json);
 
-      val instrumentBodyStr = instrument.body();
-      val globalStr = instrument.globals();
-
-      orchestra.addGlobal(globalStr);
-      orchestra.addInstrument(instrumentBodyStr, json.get("_id").getAsInteger());
+      orchestra.addGlobal(instrument.globals());
+      orchestra.addInstrument(instrument.body(), json.get("_id").getAsInt());
     }
 
     compiled.orchestra = orchestra.generate();
@@ -53,7 +50,7 @@ public object CompositionManager {
 
   fun createScore(compo: Composition, compiled: CompiledComposition) {
 
-    score.instruments = composition.orchestra.instruments;
+    score!!.instruments = compo.orchestra!!.instruments;
 
     for(group: Group in compo.score.groups) {
       score.addGroup(group);
