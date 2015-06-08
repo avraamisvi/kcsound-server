@@ -4,6 +4,8 @@ import kcsound.instruments.*;
 import kcsound.composition.*;
 import com.google.gson.*;
 
+import kcsound.templates.*;
+
 public class CompiledComposition {
   var orchestra: String?=null;
   var score: String?=null;
@@ -12,31 +14,52 @@ public class CompiledComposition {
 
 public object CompositionManager {
 
+  var compiledsId = 0;
+  var orchestra: OrchestraTemplate = OrchestraTemplate();
+  var score: ScoreTemplate?=null;
+
   public fun compile(composition: Composition): CompiledComposition {
-    return CompiledComposition();
+
+    val compiled = CompiledComposition();
+
+    this.createOrchestra(composition, compiled);
+    this.createScore(composition, compiled);
+    this.compiled.id = this.compiledsId;
+
+    this.compiledsId++;
+
+    return compiled;
   }
 
-  fun createOrchestra(compo: Composition, compiled: CompiledComposition): String {
-    val header =  """
-                    sr = 44100
-                    ksmps = 32
-                    nchnls = 2
-                    0dbfs  = 1
-                  """;
+  fun createOrchestra(compo: Composition, compiled: CompiledComposition) {
 
-    var orchestra = "";
+    for(orchItem: Set<Map.Entry<String,JsonElement>> in compo.orchestra.instruments.entrySet()) {
 
-    //TODO rever
-    for(orchItem: Map.Entry<String, JsonElement> in compo.orchestra!!.instruments!!.entrySet()) {
-      val instrument = this.createInstrument(orchItem.getValue() as JsonObject);
-      val compiledStr = instrument.compile(orchItem.getValue() as JsonObject);
+      var json = orchItem.getValue() as JsonObject;
+      val instrument = this.createInstrument(json);
+
+      // Compilando instrumento
+      instrument.compile(json);
+
+      val instrumentBodyStr = instrument.body();
+      val globalStr = instrument.globals();
+
+      orchestra.addGlobal(globalStr);
+      orchestra.addInstrument(instrumentBodyStr, json.get("_id").getAsInteger());
     }
 
-    return "";
+    compiled.orchestra = orchestra.generate();
   }
 
-  fun createOrchestraInstrument(instr: Instrument, json: JsonObject): String {
-    return "instr ";
+  fun createScore(compo: Composition, compiled: CompiledComposition) {
+
+    score.instruments = composition.orchestra.instruments;
+
+    for(group: Group in compo.score.groups) {
+      score.addGroup(group);
+    }
+
+    compiled.score = score.generate();
   }
 
   fun createInstrument(obj: JsonObject): Instrument {

@@ -37,12 +37,13 @@ public class Player {
 //        csound.Perform();
 
         while (csound.PerformKsmps() == 0 && conn.isOpen() && playing) {
-//        	println("time:" + csound.GetScoreTime());
-			conn.send(""+csound.GetScoreTime());
+		//    println("time:" + csound.GetScoreTime());
 
-			if(conn.isClosed()) {
-				break;
-			}
+					conn.send(""+csound.GetScoreTime());
+
+					if(conn.isClosed()) {
+						break;
+					}
         }
 
         // stops Csound
