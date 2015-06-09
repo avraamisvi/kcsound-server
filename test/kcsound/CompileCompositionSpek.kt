@@ -47,21 +47,23 @@ class CompileCompositionSpek: Spek() {init {
                          """
 
 
-        JsonObject groupStr = Gson().fromJson("""
+        JsonObject groupsStr = Gson().fromJson("""
           {
-            name: 'name',
-            id: 1,
-            instruments: {
-              '1':'simplesine'
-            },
-            entriesId: 100,
-            entries: {
               '1':{
-                id: 1,
-                start: 300,
-                duration: 1000
-              }
-            },
+              name: 'name',
+              id: 1,
+              instruments: {
+                '1':'simplesine'
+              },
+              entriesId: 100,
+              entries: {
+                '1':{
+                  id: 1,
+                  start: 300,
+                  duration: 1000
+                }
+              },
+            }
           }
         """, JsonObject.class);
 
