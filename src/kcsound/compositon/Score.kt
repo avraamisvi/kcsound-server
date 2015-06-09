@@ -13,7 +13,7 @@ public class GroupEntry {
 public class Group {
   var id: Int?=null;
   var name: String?=null;
-  var instruments: HashMap<String, Int>?=null;
+  var instruments: HashMap<Int, String>?=null;
   var entries: Array<GroupEntry>?=null;
 }
 

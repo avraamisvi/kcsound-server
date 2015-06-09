@@ -5,24 +5,18 @@ import org.jetbrains.spek.api.*
 import kotlin.test.assertTrue
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import java.util.HashMap
+import kcsound.composition.*
 
 class CompileCompositionSpek: Spek() {init {
 
     given("A received composition with one simples sine oscilator") {
 
-/*      val compositionManager = CompositionManager();
         val composition = Composition();
+        val orchestra = Orchestra();
+        val score = Score();
 
-        public class Composition {
-        	var orchestra: Orchestra?=null;
-        	var score: Score?=null;
-        	var compiledId: Int?=-1;
-        }*/
-        val composition = Composition();
-        composition.orchestra = Orchestra();
-        composition.score = Score();
-
-        val instrumentsStr = """
+        val instruments_json = Gson().fromJson("""
                             {
                               '1': {
                               notesId: 0,
@@ -44,34 +38,36 @@ class CompileCompositionSpek: Spek() {init {
                               notes = []
                             }
                           }
-                         """
+                         """, javaClass<JsonObject>());
 
+        orchestra.instruments = Gson().fromJson(instruments_json, javaClass<JsonObject>());
+        val group: Group = Group();
+        group.name = "simplesine";
 
-        JsonObject groupsStr = Gson().fromJson("""
-          {
-              '1':{
-              name: 'name',
-              id: 1,
-              instruments: {
-                '1':'simplesine'
-              },
-              entriesId: 100,
-              entries: {
-                '1':{
-                  id: 1,
-                  start: 300,
-                  duration: 1000
-                }
-              },
-            }
-          }
-        """, JsonObject.class);
+        val instrs = HashMap<Int, String>();
+        instrs.put(1, "simplesine");
+        group.instruments = instrs;
 
-        composition.orchestra.instruments = Gson().fromJson(instrumentsStr);
+        val entry = GroupEntry();
+        entry.id = 1;
+        entry.start = 300.0;
+        entry.duration = 1000.0;
 
+        group.entries = array(entry);
+
+        score.groups = array(group);
+
+        composition.orchestra = orchestra;
+        composition.score = score;
 
         on("compiling the composition") {
           //  val value = taxRateCalculator.calculateRate(200, 10)
+
+            val compiled = CompositionManager.compile(composition);
+
+            println(compiled.orchestra);
+            println(compiled.score);
+
             it("should result compile it to a csound file format string with a sine oscilator") {
                 assertEquals(300, 300)
             }
@@ -89,7 +85,7 @@ public class GroupEntry {
 public class Group {
   var id: Int?=null;
   var name: String?=null;
-  var instruments: HashMap<String, Int>?=null;
+  var instruments: HashMap<Int, String>?=null;
   var entries: Array<GroupEntry>?=null;
 }
 
@@ -105,3 +101,25 @@ public class Orchestra {
 
 
 */
+
+
+
+        /*val groups_json = Gson().fromJson("""
+          {
+              '1':{
+              name: 'name',
+              id: 1,
+              instruments: {
+                '1':'simplesine'
+              },
+              entriesId: 100,
+              entries: {
+                '1':{
+                  id: 1,
+                  start: 300,
+                  duration: 1000
+                }
+              },
+            }
+          }
+        """, JsonObject.class);*/

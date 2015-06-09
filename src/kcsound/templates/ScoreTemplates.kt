@@ -14,9 +14,9 @@ public class ScoreTemplate {
       var entryStart: Double = entry.start!!;
       var entryDuration: Double = entry.duration!!;
 
-      for(key: String in group!!.instruments!!.keySet()) {
+      for(key: Int in group!!.instruments!!.keySet()) {
 
-        val id = group!!.instruments!!.get(key);
+        val id = key;//group!!.instruments!!.get(key);
         val instr = this.instruments!!.get(id.toString()).getAsJsonObject();//group!!.instruments!!.get(key)
 
         for(pianoNoteEntry: Map.Entry<String, JsonElement> in instr.get("piano").getAsJsonObject().entrySet()) {
