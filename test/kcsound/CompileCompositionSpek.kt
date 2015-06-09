@@ -21,8 +21,8 @@ class CompileCompositionSpek: Spek() {init {
                               '1': {
                               notesId: 0,
                               id: 1,
-                              name: 'simplesine',
-                              label: 'simplesine',
+                              name: 'simpleoscilator',
+                              label: 'simpleoscilator',
                               type: 123,
                               mode: 1,
                               pattern:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -42,10 +42,10 @@ class CompileCompositionSpek: Spek() {init {
 
         orchestra.instruments = Gson().fromJson(instruments_json, javaClass<JsonObject>());
         val group: Group = Group();
-        group.name = "simplesine";
+        group.name = "simpleoscilator";
 
         val instrs = HashMap<Int, String>();
-        instrs.put(1, "simplesine");
+        instrs.put(1, "simpleoscilator");
         group.instruments = instrs;
 
         val entry = GroupEntry();

@@ -27,6 +27,7 @@ public object InstrumentsManager {
 	}
 
 	fun createInstrument(name: String): Instrument {
+		println("instrument name: $name");
     return factory.create(jcl, instruments.get(name).get("instrumentClass").getAsString()) as Instrument;
 	}
 }

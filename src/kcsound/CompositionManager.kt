@@ -16,7 +16,7 @@ public object CompositionManager {
 
   var compiledsId = 0;
   var orchestra: OrchestraTemplate = OrchestraTemplate();
-  var score: ScoreTemplate?=null;
+  var score: ScoreTemplate = ScoreTemplate();
 
   public fun compile(composition: Composition): CompiledComposition {
 
@@ -42,7 +42,7 @@ public object CompositionManager {
       instrument.compile(json);
 
       orchestra.addGlobal(instrument.globals());
-      orchestra.addInstrument(instrument.body(), json.get("_id").getAsInt());
+      orchestra.addInstrument(instrument.body(), json.get("id").getAsInt());
     }
 
     compiled.orchestra = orchestra.generate();
