@@ -50,13 +50,13 @@ public object CompositionManager {
 
   fun createScore(compo: Composition, compiled: CompiledComposition) {
 
-    score!!.instruments = compo.orchestra!!.instruments;
+    this.score!!.instruments = compo.orchestra!!.instruments;
 
-    for(group: Group in compo.score.groups) {
-      score.addGroup(group);
+    for(group: Group in compo.score!!.groups!!.iterator()) {
+      this.score!!.addGroup(group);
     }
 
-    compiled.score = score.generate();
+    compiled.score = this.score!!.generate();
   }
 
   fun createInstrument(obj: JsonObject): Instrument {

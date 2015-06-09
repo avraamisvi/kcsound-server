@@ -1,5 +1,7 @@
 package kcsound.templates
 
+import kcsound.composition.*;
+
 public class OrchestraTemplate {
 
   //var header: String="";

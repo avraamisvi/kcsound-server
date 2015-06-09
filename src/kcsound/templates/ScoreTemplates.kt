@@ -1,30 +1,31 @@
 package kcsound.templates
 
-import com.google.gson.JsonObject;
+import com.google.gson.*;
+import kcsound.composition.*;
 
 public class ScoreTemplate {
 
   var score: String="";
   var instruments: JsonObject?=null;
 
-  public fun addGlobal(group: Group) {
-    for(entry: GroupEntry in group.entries) {
+  public fun addGroup(group: Group) {
+    for(entry: GroupEntry in group!!.entries!!.iterator()) {
 
-      var entryStart = entry.start;
-      var entryDuration = entry.duration;
+      var entryStart: Double = entry.start!!;
+      var entryDuration: Double = entry.duration!!;
 
-      for(key: String in entry.instruments.keys()) {
+      for(key: String in group!!.instruments!!.keySet()) {
 
-        val id = entry.instruments.get(key);
-        val instr = instruments.get(entry.instruments.get(key))
+        val id = group!!.instruments!!.get(key);
+        val instr = this.instruments!!.get(id.toString()).getAsJsonObject();//group!!.instruments!!.get(key)
 
-        for(pianoNoteEntry: Set<Map.Entry<String, JsonElement>> in instr.get("piano").getAsJsonObject().entrySet()) {
+        for(pianoNoteEntry: Map.Entry<String, JsonElement> in instr.get("piano").getAsJsonObject().entrySet()) {
 
           val noteJson = pianoNoteEntry.getValue() as JsonObject;
 
           val note = noteJson.get("note").getAsString();
-          var noteDuration = noteJson.get("note").getAsDouble();
-          val noteStart = entryStart + noteJson.get("start").getAsDouble();
+          var noteDuration = noteJson.get("duration").getAsDouble();
+          val noteStart = entryStart + noteJson.get("start")!!.getAsDouble();
 
           noteDuration = (if (noteDuration > entryDuration) entryDuration else noteDuration)/1000//divided by 1000 to transform in seconds
 

@@ -2,6 +2,7 @@ package kcsound.composition
 
 import java.io.File
 import com.google.gson.JsonObject
+import java.util.HashMap
 
 public class GroupEntry {
   var id: Int?=null;
