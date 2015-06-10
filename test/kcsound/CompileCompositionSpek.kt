@@ -68,39 +68,38 @@ class CompileCompositionSpek: Spek() {init {
 
             val compiled = CompositionManager.compile(composition);
 
-            val score_ideal = "i1 300.0 1.0 440";
+            val score_ideal = "i1 300.0 1.0 440\n";
             val orchestra_ideal =
-            """
-            sr = 44100
-            ksmps = 32
-            nchnls = 2
-            0dbfs  = 1
+"""sr = 44100
+ksmps = 32
+nchnls = 2
+0dbfs  = 1
 
-            giSine ftgen 0, 0, 2^10, 10, 1
+giSine ftgen 0, 0, 2^10, 10, 1
 
-            instr 1
+instr 1
 
-                         krnd  randomh 40, 440, 1	; produce random values
-                         ain   poscil3 .6, krnd, giSine
-                         kline line    1, p3, 0    	; straight line
-                         aL,aR pan2    ain, kline	; sent across image
-                               outs    aL, aR
+             krnd  randomh 40, 440, 1	; produce random values
+             ain   poscil3 .6, krnd, giSine
+             kline line    1, p3, 0    	; straight line
+             aL,aR pan2    ain, kline	; sent across image
+                   outs    aL, aR
 
-            endin
-            """;
+endin
+""";
 
 
-            println("orchestra:");
+            /*println("orchestra:");
             print(compiled.orchestra);
-            println("orchestra ideal: $orchestra_ideal");
+            println("orchestra ideal: $orchestra_ideal");*/
 
-            println("score:")
+            /*println("score:")
             println(compiled.score);
-            println("score ideal: $score_ideal");
+            println("score ideal: $score_ideal");*/
 
             it("should result compile it to a csound file format string with a sine oscilator") {
-                assertEquals(orchestra_ideal, compiled.orchestra)
                 assertEquals(score_ideal, compiled.score)
+                assertEquals(orchestra_ideal, compiled.orchestra)
             }
         }
     }

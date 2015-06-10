@@ -29,7 +29,8 @@ public class ScoreTemplate {
 
           noteDuration = (if (noteDuration > entryDuration) entryDuration else noteDuration)/1000//divided by 1000 to transform in seconds
 
-          score += "i$id $noteStart $noteDuration\n";
+          val translatedNote = this.translateNote(note);
+          score += "i$id $noteStart $noteDuration $translatedNote\n";
         }
       }
 
@@ -39,5 +40,9 @@ public class ScoreTemplate {
 
   public fun generate(): String {
     return score;
+  }
+
+  fun translateNote(note: String): String{
+    return "440";
   }
 }
