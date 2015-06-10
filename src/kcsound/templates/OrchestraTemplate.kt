@@ -10,13 +10,12 @@ public class OrchestraTemplate {
                   ksmps = 32
                   nchnls = 2
                   0dbfs  = 1
-
                   """;
   var globals: String="";
   var instruments: String="";
 
   public fun addGlobal(global: String) {
-    this.globals += "$global \n";
+    this.globals += "$global\n";
   }
 
   public fun addInstrument(instrument: String, id: Int) {

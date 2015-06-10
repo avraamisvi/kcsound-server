@@ -50,10 +50,10 @@ public object CompositionManager {
 
   fun createScore(compo: Composition, compiled: CompiledComposition) {
 
-    this.score!!.instruments = compo.orchestra!!.instruments;
+    this.score.instruments = compo.orchestra!!.instruments;
 
-    for(group: Group in compo.score!!.groups!!.iterator()) {
-      this.score!!.addGroup(group);
+    for(group: Group in compo.score!!.groups.iterator()) {
+      this.score.addGroup(group);
     }
 
     compiled.score = this.score!!.generate();

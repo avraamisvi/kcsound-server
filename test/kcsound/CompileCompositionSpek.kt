@@ -68,11 +68,11 @@ class CompileCompositionSpek: Spek() {init {
 
             val compiled = CompositionManager.compile(composition);
 
-            println(compiled.orchestra);
-            println(compiled.score);
+            println(compiled.orchestra.trim());
+            println(compiled.score.trim());
 
             it("should result compile it to a csound file format string with a sine oscilator") {
-                assertEquals(compiled.orchestra,
+                assertEquals(compiled.orchestra.trim(),
                 """
                 sr = 44100
                 ksmps = 32
@@ -90,10 +90,10 @@ class CompileCompositionSpek: Spek() {init {
                                    outs    aL, aR
 
                 endin
-                
-                """)
 
-                assertEquals(compiled.score,"i1 300.0 1.0 440")
+                """.trim())
+
+                assertEquals(compiled.score.trim(),"i1 300.0 1.0 440".trim())
             }
         }
     }
