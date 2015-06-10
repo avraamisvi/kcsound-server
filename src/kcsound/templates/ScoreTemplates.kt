@@ -9,14 +9,14 @@ public class ScoreTemplate {
   var instruments: JsonObject?=null;
 
   public fun addGroup(group: Group) {
-    for(entry: GroupEntry in group!!.entries!!.iterator()) {
+    for(entry: GroupEntry in group!!.entries) {
 
       var entryStart: Double = entry.start!!;
       var entryDuration: Double = entry.duration!!;
 
-      for(key: Int in group!!.instruments!!.keySet()) {
+      for(keyMap: Map.Entry<String,String> in group!!.instruments.entrySet()) {
 
-        val id = key;//group!!.instruments!!.get(key);
+        val id = keyMap.getKey();//group!!.instruments!!.get(key);
         val instr = this.instruments!!.get(id.toString()).getAsJsonObject();//group!!.instruments!!.get(key)
 
         for(pianoNoteEntry: Map.Entry<String, JsonElement> in instr.get("piano").getAsJsonObject().entrySet()) {
@@ -32,6 +32,8 @@ public class ScoreTemplate {
           score += "i$id $noteStart $noteDuration\n";
         }
       }
+
+
     }
   }
 

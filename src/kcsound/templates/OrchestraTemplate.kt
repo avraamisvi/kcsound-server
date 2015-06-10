@@ -4,18 +4,16 @@ import kcsound.composition.*;
 
 public class OrchestraTemplate {
 
-  //var header: String="";
+  var header: String=
+                  """
+                  sr = 44100
+                  ksmps = 32
+                  nchnls = 2
+                  0dbfs  = 1
+
+                  """;
   var globals: String="";
   var instruments: String="";
-
-  /*init {
-    val header =  """
-                    sr = 44100
-                    ksmps = 32
-                    nchnls = 2
-                    0dbfs  = 1
-                  """;
-  }*/
 
   public fun addGlobal(global: String) {
     this.globals += "$global \n";
@@ -23,10 +21,10 @@ public class OrchestraTemplate {
 
   public fun addInstrument(instrument: String, id: Int) {
 
-    instruments += "instr $id\n $instrument\n";
+    instruments += "instr $id\n $instrument\n endin \n";
   }
 
   public fun generate(): String {
-    return globals + instruments;//header +
+    return header + globals + instruments;
   }
 }

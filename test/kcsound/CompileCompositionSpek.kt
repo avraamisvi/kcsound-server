@@ -6,6 +6,7 @@ import kotlin.test.assertTrue
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.util.HashMap
+import java.util.ArrayList
 import kcsound.composition.*
 
 class CompileCompositionSpek: Spek() {init {
@@ -44,8 +45,8 @@ class CompileCompositionSpek: Spek() {init {
         val group: Group = Group();
         group.name = "simpleoscilator";
 
-        val instrs = HashMap<Int, String>();
-        instrs.put(1, "simpleoscilator");
+        val instrs = HashMap<String, String>();
+        instrs.put("1", "simpleoscilator");
         group.instruments = instrs;
 
         val entry = GroupEntry();
@@ -53,9 +54,11 @@ class CompileCompositionSpek: Spek() {init {
         entry.start = 300.0;
         entry.duration = 1000.0;
 
-        group.entries = array(entry);
+        group.entries = ArrayList();
+        group.entries.add(entry)
 
-        score.groups = array(group);
+        score.groups = ArrayList();
+        score.groups.add(group);
 
         composition.orchestra = orchestra;
         composition.score = score;
@@ -69,7 +72,28 @@ class CompileCompositionSpek: Spek() {init {
             println(compiled.score);
 
             it("should result compile it to a csound file format string with a sine oscilator") {
-                assertEquals(300, 300)
+                assertEquals(compiled.orchestra,
+                """
+                sr = 44100
+                ksmps = 32
+                nchnls = 2
+                0dbfs  = 1
+
+                giSine ftgen 0, 0, 2^10, 10, 1
+
+                instr 1
+
+                             krnd  randomh 40, 440, 1	; produce random values
+                             ain   poscil3 .6, krnd, giSine
+                             kline line    1, p3, 0    	; straight line
+                             aL,aR pan2    ain, kline	; sent across image
+                                   outs    aL, aR
+
+                endin
+                
+                """)
+
+                assertEquals(compiled.score,"i1 300.0 1.0 440")
             }
         }
     }

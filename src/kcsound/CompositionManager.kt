@@ -7,8 +7,8 @@ import com.google.gson.*;
 import kcsound.templates.*;
 
 public class CompiledComposition {
-  var orchestra: String?=null;
-  var score: String?=null;
+  var orchestra: String="";
+  var score: String="";
   var id: Int = -1;
 }
 
