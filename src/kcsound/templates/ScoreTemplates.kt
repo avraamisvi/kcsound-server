@@ -2,6 +2,7 @@ package kcsound.templates
 
 import com.google.gson.*;
 import kcsound.composition.*;
+import kcsound.NoteParser;
 
 public class ScoreTemplate {
 
@@ -23,17 +24,14 @@ public class ScoreTemplate {
 
           val noteJson = pianoNoteEntry.getValue() as JsonObject;
 
-          val note = noteJson.get("note").getAsString();
+          val note = NoteParser.parse(noteJson.get("note").getAsString());
           var noteDuration = noteJson.get("duration").getAsDouble();
-          val noteStart = entryStart + noteJson.get("start")!!.getAsDouble();
+          val noteStart = (entryStart + noteJson.get("start")!!.getAsDouble()) / 1000;
 
           noteDuration = (if (noteDuration > entryDuration) entryDuration else noteDuration)/1000//divided by 1000 to transform in seconds
-
-          val translatedNote = this.translateNote(note);
-          score += "i$id $noteStart $noteDuration $translatedNote\n";
+          score += "i$id $noteStart $noteDuration $note\n";
         }
       }
-
 
     }
   }
@@ -42,7 +40,4 @@ public class ScoreTemplate {
     return score;
   }
 
-  fun translateNote(note: String): String{
-    return "440";
-  }
 }

@@ -14,7 +14,7 @@ public class OrchestraTemplate {
 
   public fun addInstrument(instrument: String, id: Int) {
 
-    instruments += "\ninstr $id\n $instrument\n endin \n";
+    instruments += "\ninstr $id\n $instrument\nendin\n";
   }
 
   public fun generate(): String {

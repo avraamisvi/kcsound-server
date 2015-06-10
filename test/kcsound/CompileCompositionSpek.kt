@@ -8,10 +8,11 @@ import com.google.gson.JsonObject
 import java.util.HashMap
 import java.util.ArrayList
 import kcsound.composition.*
+import kotlin.text.Regex
 
 class CompileCompositionSpek: Spek() {init {
 
-    given("A received composition with one simples sine oscilator") {
+    given("A received composition with one simple sine oscilator") {
 
         val composition = Composition();
         val orchestra = Orchestra();
@@ -29,9 +30,9 @@ class CompileCompositionSpek: Spek() {init {
                               pattern:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                               octave:1,
                               piano:{
-                                'c440':{
+                                '1':{
                                   id:'1',
-                                  note:'c440',
+                                  note:'A0',
                                   start: 0,
                                   duration: 1000
                                 }
@@ -64,11 +65,10 @@ class CompileCompositionSpek: Spek() {init {
         composition.score = score;
 
         on("compiling the composition") {
-          //  val value = taxRateCalculator.calculateRate(200, 10)
-
             val compiled = CompositionManager.compile(composition);
 
-            val score_ideal = "i1 300.0 1.0 440\n";
+            val score_ideal = "i1 0.3 1.0 440\n";
+            val regex = Regex("[ \\s]");
             val orchestra_ideal =
 """sr = 44100
 ksmps = 32
@@ -86,70 +86,12 @@ instr 1
                    outs    aL, aR
 
 endin
-""";
-
-
-            /*println("orchestra:");
-            print(compiled.orchestra);
-            println("orchestra ideal: $orchestra_ideal");*/
-
-            /*println("score:")
-            println(compiled.score);
-            println("score ideal: $score_ideal");*/
+""".replace(regex, "");
 
             it("should result compile it to a csound file format string with a sine oscilator") {
                 assertEquals(score_ideal, compiled.score)
-                assertEquals(orchestra_ideal, compiled.orchestra)
+                assertEquals(orchestra_ideal, compiled.orchestra.replace(regex, ""))
             }
         }
     }
 }}
-
-/*
-public class GroupEntry {
-  var id: Int?=null;
-  var start: Double?=null;
-  var duration: Double?=null;
-}
-
-public class Group {
-  var id: Int?=null;
-  var name: String?=null;
-  var instruments: HashMap<Int, String>?=null;
-  var entries: Array<GroupEntry>?=null;
-}
-
-public class Score {
-  public var groups: Array<Group>?=null;
-}
-
-public class Orchestra {
-
-  public var header: String?=null;
-  public var instruments: JsonObject?=null;
-}
-
-
-*/
-
-
-
-        /*val groups_json = Gson().fromJson("""
-          {
-              '1':{
-              name: 'name',
-              id: 1,
-              instruments: {
-                '1':'simplesine'
-              },
-              entriesId: 100,
-              entries: {
-                '1':{
-                  id: 1,
-                  start: 300,
-                  duration: 1000
-                }
-              },
-            }
-          }
-        """, JsonObject.class);*/

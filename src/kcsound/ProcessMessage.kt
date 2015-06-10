@@ -6,14 +6,9 @@ public interface Message {
 	val type: MessageType;
 }
 
-//class LocalMessage {
-//	var data: String?=null;
-//    var type: MessageType?=null;
-//}
-
 public class PlayMessage(composition: Composition) : Message {
     override val type: MessageType = MessageType.PLAY;
-	val composition: Composition = composition;
+		val composition: Composition = composition;
 }
 
 public class StopMessage() : Message {

@@ -13,9 +13,9 @@ public class Player {
 
 	fun play(conn: WebSocket, composition: Composition) {
 
-		val csound = Csound();
+				val csound = Csound();
 
-		playing = true;
+				playing = true;
 
 		// Using SetOption() to configure Csound
         // Note: use only one commandline flag at a time
