@@ -43,6 +43,7 @@ fun generate(): HashMap<String, String> {
 		notes["A"+octave] = freq(++i);
 		notes["A#/Bb"+octave] = freq(++i);
 		notes["B"+octave] = freq(++i);
+    i++;
 
 		octave++
 	}

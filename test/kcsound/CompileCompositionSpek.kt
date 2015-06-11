@@ -67,7 +67,7 @@ class CompileCompositionSpek: Spek() {init {
         on("compiling the composition") {
             val compiled = CompositionManager.compile(composition);
 
-            val score_ideal = "i1 0.3 1.0 440\n";
+            val score_ideal = "i1 0.3 1.0 439.99999999764907\n";
             val regex = Regex("[ \\s]");
             val orchestra_ideal =
 """sr = 44100
@@ -75,15 +75,16 @@ ksmps = 32
 nchnls = 2
 0dbfs  = 1
 
-giSine ftgen 0, 0, 2^10, 10, 1
+seed 0
+gisine ftgen 0, 0, 2^10, 10, 1
 
 instr 1
 
-             krnd  randomh 40, 440, 1	; produce random values
-             ain   poscil3 .6, krnd, giSine
-             kline line    1, p3, 0    	; straight line
-             aL,aR pan2    ain, kline	; sent across image
-                   outs    aL, aR
+ipeak random 0, 1 		;where is the envelope peak
+asig  poscil .8, p4, gisine
+aenv  transeg 0, p3*ipeak, 6, 1, p3-p3*ipeak, -6, 0
+aL,aR pan2 asig*aenv, ipeak	;pan according to random value
+      outs aL, aR
 
 endin
 """.replace(regex, "");

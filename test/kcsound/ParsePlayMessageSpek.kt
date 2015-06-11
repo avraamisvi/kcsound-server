@@ -62,6 +62,16 @@ class ParsePlayMessageSpek: Spek() {init {
                         id: "1",
                         start: 300,
                         duration: 3000
+                      },
+                      {
+                        id: "2",
+                        start: 3300,
+                        duration: 3000
+                      },
+                      {
+                        id: "3",
+                        start: 4300,
+                        duration: 3000
                       }
                   ]
                 }
@@ -80,18 +90,39 @@ class ParsePlayMessageSpek: Spek() {init {
 
             it("it should play a sound") {
 
+                val regex = Regex("[ \\s]");
+
                 val processMessage = ProcessMessage();
                 val msg = processMessage.process(message);
                 play((msg as PlayMessage).composition);
 
-                /*val compiled = CompositionManager.compile((msg as PlayMessage).composition);
+                val compiled = CompositionManager.compile((msg as PlayMessage).composition);
+                val orch = """sr = 44100
+                ksmps = 32
+                nchnls = 2
+                0dbfs  = 1
 
-                println("INIT==================================")
-                  println(compiled.orchestra)
-                  println(compiled.score)
-                println("FIM==================================")*/
+                seed 0
+                gisine ftgen 0, 0, 2^10, 10, 1
 
-                assertEquals(true, false)
+                instr 1
+
+                  ipeak random 0, 1 		;where is the envelope peak
+                  asig  poscil .8, p4, gisine
+                  aenv  transeg 0, p3*ipeak, 6, 1, p3-p3*ipeak, -6, 0
+                  aL,aR pan2 asig*aenv, ipeak	;pan according to random value
+                        outs aL, aR
+
+                endin
+                """.replace(regex, "");
+
+                val scor = """
+                i1 0.3 3.0 439.99999999764907
+                i1 3.3 3.0 439.99999999764907
+                i1 4.3 3.0 439.99999999764907
+                """.replace(regex, "");
+
+                assertEquals("$orch$scor", "${compiled.orchestra}${compiled.score}".replace(regex, ""));
             }
         }
     }
