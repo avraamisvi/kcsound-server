@@ -58,8 +58,8 @@ class CompileCompositionSpek: Spek() {init {
         group.entries = ArrayList();
         group.entries.add(entry)
 
-        score.groups = ArrayList();
-        score.groups.add(group);
+        score.groups = HashMap();
+        score.groups.put("1",group);
 
         composition.orchestra = orchestra;
         composition.score = score;

@@ -1,10 +1,10 @@
 package kcsound.composition
 
-import java.util.ArrayList
+import java.util.HashMap
 
 /**
 * This represents a score.
 **/
 public class Score {
-  public var groups: ArrayList<Group> = ArrayList();
+  public var groups: HashMap<String, Group> = HashMap();
 }

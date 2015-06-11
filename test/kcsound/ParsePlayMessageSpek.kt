@@ -23,7 +23,7 @@ class ParsePlayMessageSpek: Spek() {init {
           composition:{
 
             orchestra:{
-              header:'',
+              header:"",
               instruments: {
                   "1": {
                   notesId: 0,
@@ -39,7 +39,7 @@ class ParsePlayMessageSpek: Spek() {init {
                       id:"1",
                       note:"A0",
                       start: 0,
-                      duration: 1000
+                      duration: 3000
                     }
                   },
                   notes = []
@@ -48,23 +48,27 @@ class ParsePlayMessageSpek: Spek() {init {
             },
 
             score:{
-              "1":{
-                id:"1",
-                name: "abacate",
-                instruments: {
-                  "1":"simpleoscilator"
-                },
-                entries: [
-                    {
-                      id: "1",
-                      start: 300,
-                      duration: 1000
-                    }
-                ]
-              }
-            },
+              groups:{
 
-          	compiledId:-1
+                "1":{
+                  id:"1",
+                  name:"abacate",
+
+                  instruments:{
+                    "1":"simpleoscilator"
+                  },
+                  entries: [
+                      {
+                        id: "1",
+                        start: 300,
+                        duration: 3000
+                      }
+                  ]
+                }
+
+              }
+            }
+
           }
         }
         """;
@@ -78,11 +82,14 @@ class ParsePlayMessageSpek: Spek() {init {
 
                 val processMessage = ProcessMessage();
                 val msg = processMessage.process(message);
-                //play((msg as PlayMessage).composition);
+                play((msg as PlayMessage).composition);
 
-                val compiled = CompositionManager.compile((msg as PlayMessage).composition);
-                println(compiled.orchestra);
-                println(compiled.score);
+                /*val compiled = CompositionManager.compile((msg as PlayMessage).composition);
+
+                println("INIT==================================")
+                  println(compiled.orchestra)
+                  println(compiled.score)
+                println("FIM==================================")*/
 
                 assertEquals(true, false)
             }
@@ -99,13 +106,8 @@ fun play(composition: Composition) {
 
     val compiled = CompositionManager.compile(composition);
 
-    // Compile the Csound Orchestra string
     csound.CompileOrc(compiled.orchestra);
-    println(compiled.orchestra);
-
-    // Compile the Csound SCO String
     csound.ReadScore(compiled.score);
-    println(compiled.score);
 
     // When compiling from strings, this call is necessary before doing
     // any performing

@@ -20,7 +20,10 @@ public object CompositionManager {
 
   public fun compile(composition: Composition): CompiledComposition {
 
-    val compiled = CompiledComposition();
+    this.orchestra = OrchestraTemplate();
+    this.score = ScoreTemplate();
+
+    var compiled = CompiledComposition();
 
     this.createOrchestra(composition, compiled);
     this.createScore(composition, compiled);
@@ -45,18 +48,21 @@ public object CompositionManager {
       orchestra.addInstrument(instrument.body(), json.get("id").getAsInt());
     }
 
-    compiled.orchestra = orchestra.generate();
+    compiled.orchestra = this.orchestra.generate();
+    println("createOrchestra:" + compiled.orchestra)
   }
 
   fun createScore(compo: Composition, compiled: CompiledComposition) {
 
     this.score.instruments = compo.orchestra!!.instruments;
 
-    for(group: Group in compo.score!!.groups.iterator()) {
-      this.score.addGroup(group);
+    for(group: Map.Entry<String,Group> in compo.score!!.groups.entrySet()) {
+      this.score.addGroup(group.getValue());
     }
 
     compiled.score = this.score!!.generate();
+
+    println("createScore:" + compiled.score)
   }
 
   fun createInstrument(obj: JsonObject): Instrument {
