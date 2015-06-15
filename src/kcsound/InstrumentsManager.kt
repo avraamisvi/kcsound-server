@@ -28,9 +28,19 @@ public object InstrumentsManager {
 
 	fun createInstrument(name: String): Instrument {
 		//println("instrument name: $name");
-    return factory.create(jcl, instruments.get(name).get("instrumentClass").getAsString()) as Instrument;
-	}
 
+		var custom = false;
+
+		if(instruments.get(name).get("custom") != null) {
+			custom = instruments.get(name).get("custom").getAsBoolean();
+		}
+
+		if(custom) {//if it uses the custom impl for a instrument
+    		return factory.create(jcl, instruments.get(name).get("instrumentClass").getAsString()) as Instrument;
+		} else {
+			return DefaultInstrument(instruments.get(name));
+		}
+	}
 
 }
 

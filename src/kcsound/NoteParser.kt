@@ -29,7 +29,7 @@ fun generate(): HashMap<String, String> {
 	var result = 0;
 	var i = 0.0;
 
-	while(octave < 5) {
+	while(octave <= 5) {
 
 		notes["C"+octave] = freq(i);
 		notes["C#Db"+octave] = freq(++i);

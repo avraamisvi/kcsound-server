@@ -39,7 +39,7 @@ public class Player {
         while (csound.PerformKsmps() == 0 && conn.isOpen() && playing) {
 		//    println("time:" + csound.GetScoreTime());
 
-					conn.send(""+csound.GetScoreTime());
+					TimeLineServer.send(csound.GetScoreTime());
 
 					if(conn.isClosed()) {
 						break;
