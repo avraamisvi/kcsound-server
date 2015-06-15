@@ -4,42 +4,48 @@ import csnd6.csnd6Constants;
 import csnd6.csnd6;
 import csnd6.Csound;
 import org.java_websocket.WebSocket
+import com.google.gson.Gson
 
 public class KCSound(server: Server) {
-	
+
 	var composition: Composition? = null;
 	var player: Player? = null;
 	val server: Server = server;
-	
+
 	public fun startSystem() {
 		var par = csnd6Constants.CSOUNDINIT_NO_ATEXIT or csnd6Constants.CSOUNDINIT_NO_SIGNAL_HANDLER;
         csnd6.csoundInitialize(par);
         player = Player();
-		
+
 		server.run();
 	}
-	
+
 	fun compile(composition: Composition) {//TODO
 //		return Composition("","");//TODO fazer
 	}
-	
-	fun play(conn: WebSocket, composition: Composition) {	
+
+	fun play(conn: WebSocket, composition: Composition) {
 		player?.play(conn, composition);
 	}
-	
-	fun stop(conn: WebSocket) {	
+
+	fun stop(conn: WebSocket) {
 		player?.stop(conn);
-	}	
-	
+	}
+
+	fun list(conn: WebSocket) {
+		conn.send(Gson().toJson(InstrumentsManager.instruments));
+	}
+
 	fun process(conn: WebSocket, msg: Message) {
-		
+
 		when(msg.type) {
 			MessageType.PLAY -> play(conn, (msg as PlayMessage).composition)
 			MessageType.STOP -> stop(conn)
+			MessageType.LIST -> list(conn)
 			else -> {
-				println("unknown");
+				println("unknown: ${msg.type}");
 			}
 		}
 	}
-	
+
 }

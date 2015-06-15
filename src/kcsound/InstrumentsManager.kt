@@ -11,7 +11,7 @@ import kcsound.instruments.*;
 public object InstrumentsManager {
 
 	val jcl: JarClassLoader = JarClassLoader();
-	val instruments: HashMap<String, JsonObject> = HashMap();
+	public val instruments: HashMap<String, JsonObject> = HashMap();
 	val factory = JclObjectFactory.getInstance();
 
 	init {
@@ -30,6 +30,8 @@ public object InstrumentsManager {
 		//println("instrument name: $name");
     return factory.create(jcl, instruments.get(name).get("instrumentClass").getAsString()) as Instrument;
 	}
+
+
 }
 
 public fun File.loadInstruments(jcl: JarClassLoader, insts: HashMap<String, JsonObject>): Boolean {

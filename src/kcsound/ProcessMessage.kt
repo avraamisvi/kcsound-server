@@ -15,6 +15,10 @@ public class StopMessage() : Message {
     override val type: MessageType = MessageType.STOP;
 }
 
+public class ListMessage() : Message {
+    override val type: MessageType = MessageType.LIST;
+}
+
 public class UnknownMessage() : Message {
     override val type: MessageType = MessageType.UNKNOWN;
 }
@@ -34,6 +38,10 @@ public class ProcessMessage {
 
 			  MessageType.STOP -> {
 			  	gson.fromJson(ret, javaClass<StopMessage>());
+			  }
+
+				MessageType.LIST -> {
+			  	gson.fromJson(ret, javaClass<ListMessage>());
 			  }
 
 			  else -> {
