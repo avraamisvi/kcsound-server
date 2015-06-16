@@ -10,8 +10,10 @@ public class ScoreTemplate {
   var instruments: JsonObject?=null;
 
   public fun addGroup(group: Group) {
-    for(entry: GroupEntry in group!!.entries) {
 
+    for(entriesEntry: Map.Entry<String,GroupEntry> in group!!.entries.entrySet()) {
+    //for(entry: GroupEntry in group!!.entries) {
+      var entry = entriesEntry.getValue()
       var entryStart: Double = entry.start!!;
       var entryDuration: Double = entry.duration!!;
 

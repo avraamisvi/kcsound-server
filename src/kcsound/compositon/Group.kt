@@ -7,5 +7,5 @@ public class Group {
   var id: Int=-1;
   var name: String="";
   var instruments: HashMap<String, String> = HashMap();
-  var entries: ArrayList<GroupEntry> = ArrayList();
+  var entries: HashMap<String, GroupEntry> = HashMap();
 }
