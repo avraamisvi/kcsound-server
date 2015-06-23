@@ -22,16 +22,35 @@ public class ScoreTemplate {
         val id = keyMap.getKey();//group!!.instruments!!.get(key);
         val instr = this.instruments!!.get(id.toString()).getAsJsonObject();//group!!.instruments!!.get(key)
 
-        for(pianoNoteEntry: Map.Entry<String, JsonElement> in instr.get("piano").getAsJsonObject().entrySet()) {
+        if(instr.get("mode").getAsInt() == 0) {//pattern mode
 
-          val noteJson = pianoNoteEntry.getValue() as JsonObject;
+          println("===============PATTERN=================:")
 
-          val note = NoteParser.parse(noteJson.get("note").getAsString());
-          var noteDuration = noteJson.get("duration").getAsDouble();
-          val noteStart = (entryStart + noteJson.get("start")!!.getAsDouble()) / 1000;
+          for(momentum in entryStart..(entryStart+entryDuration)) {
 
-          noteDuration = (if (noteDuration > entryDuration) entryDuration else noteDuration)/1000//divided by 1000 to transform in seconds
-          score += "i$id $noteStart $noteDuration $note\n";
+            for(index in 1..16) {
+
+              println("createScorePat:" + instr.get("pattern").getAsJsonArray().get(index).getAsInt())
+
+              if(instr.get("pattern").getAsJsonArray().get(index).getAsInt() == 1) {
+                score += "i$id ${momentum + index} 1 $index\n";
+              }
+            }
+
+          }
+        } else {
+          //Pianoroll mode
+          for(pianoNoteEntry: Map.Entry<String, JsonElement> in instr.get("piano").getAsJsonObject().entrySet()) {
+
+            val noteJson = pianoNoteEntry.getValue() as JsonObject;
+
+            val note = NoteParser.parse(noteJson.get("note").getAsString());
+            var noteDuration = noteJson.get("duration").getAsDouble();
+            val noteStart = (entryStart + noteJson.get("start")!!.getAsDouble()) / 1000;
+
+            noteDuration = (if (noteDuration > entryDuration) entryDuration else noteDuration)/1000//divided by 1000 to transform in seconds
+            score += "i$id $noteStart $noteDuration $note\n";
+          }
         }
       }
 

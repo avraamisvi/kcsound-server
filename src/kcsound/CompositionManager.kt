@@ -44,6 +44,7 @@ public object CompositionManager {
       // Compilando instrumento
       instrument.compile(json);
 
+      orchestra.addMode(json.get("id").getAsInt(), json.get("mode").getAsInt());
       orchestra.addGlobal(instrument.globals());
       orchestra.addInstrument(instrument.body(), json.get("id").getAsInt());
     }

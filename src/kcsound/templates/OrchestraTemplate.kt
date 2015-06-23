@@ -1,6 +1,7 @@
 package kcsound.templates
 
 import kcsound.composition.*;
+import kcsound.instruments.*;
 
 public class OrchestraTemplate {
 
@@ -10,6 +11,10 @@ public class OrchestraTemplate {
 
   public fun addGlobal(global: String) {
     this.globs =  "$globs $global\n";
+  }
+
+  public fun addMode(id: Int, mode: Int) {
+    this.globs =  "$globs gi${id}_mode init $mode\n";
   }
 
   public fun addInstrument(instrument: String, id: Int) {

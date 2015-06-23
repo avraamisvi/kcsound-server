@@ -1,0 +1,14 @@
+during the music rendering, in the orchestra, the parser will create the following:
+
+gi<instrumentID>_mode - 1 - if pianoroll mode or 0 - if pattern mode.
+
+during the music rendering, in the score, all the instruments will receive the following params:
+
+  p4 - for notes; As frequecy if pianoroll mode or numbers from 1 to 16 if pattern mode.
+  p5 - (reserved) always 0
+  p6 - (reserved) always 0
+
+#patterns
+
+Patterns are repeated by the score, until the end of the group duration, each pattern endures 16 seconds, each second is a "hit",
+and the instrument must define what to do for each pattern index.
