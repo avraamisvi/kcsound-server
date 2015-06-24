@@ -11,11 +11,13 @@ public class ScoreTemplate {
 
   public fun addGroup(group: Group) {
 
+    println("===============ADD GROUP=================:")
+
     for(entriesEntry: Map.Entry<String,GroupEntry> in group!!.entries.entrySet()) {
     //for(entry: GroupEntry in group!!.entries) {
       var entry = entriesEntry.getValue()
-      var entryStart: Double = entry.start!!;
-      var entryDuration: Double = entry.duration!!;
+      var entryStart: Double = entry.start!! / 1000;
+      var entryDuration: Double = entry.duration!! / 1000;
 
       for(keyMap: Map.Entry<String,String> in group!!.instruments.entrySet()) {
 
@@ -24,11 +26,14 @@ public class ScoreTemplate {
 
         if(instr.get("mode").getAsInt() == 0) {//pattern mode
 
-          println("===============PATTERN=================:")
+          println("===============PATTERN=================: $entryStart $entryDuration")
 
           for(momentum in entryStart..(entryStart+entryDuration)) {
 
             for(index in 1..16) {
+
+              if(instr.get("pattern").getAsJsonArray().size() <= index)//para garantir a seguranca
+                break;
 
               println("createScorePat:" + instr.get("pattern").getAsJsonArray().get(index).getAsInt())
 
