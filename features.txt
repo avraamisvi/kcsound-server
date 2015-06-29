@@ -4,3 +4,14 @@
 ###########
 
 Servidor espera receber o tempo em milisegundos. (1000 = 1 segundo)
+
+##################
+
+Options do instrumento.
+
+um instrumento pode receber os options em branco, nesse caso ele deve assumir o valor default definido no definition.js.
+caso nenhum valor default seja passado um erro deve ser gerado.
+
+#######################
+
+Tratar erros nos instrumentos do lado do servidor e avisar ao cliente.
