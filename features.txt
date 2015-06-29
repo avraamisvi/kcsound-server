@@ -1,5 +1,5 @@
 - o tag special para apontar para valor do id do instrumnto dentro do definition. <INSTR_ID>
-
+- implementar option, gerando uma globalvar para cada option do instrumento.
 
 ###########
 
